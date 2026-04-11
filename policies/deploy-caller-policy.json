@@ -2,6 +2,12 @@
     "Version": "2012-10-17",
     "Statement": [
         {
+            "Sid": "CloudShellAccess",
+            "Effect": "Allow",
+            "Action": "cloudshell:*",
+            "Resource": "*"
+        },
+        {
             "Sid": "STSAccess",
             "Effect": "Allow",
             "Action": "sts:GetCallerIdentity",

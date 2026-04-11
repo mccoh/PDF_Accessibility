@@ -28,6 +28,7 @@ See [`policies/deploy-caller-policy.json`](../policies/deploy-caller-policy.json
 
 | Sid | Actions | Resources | Purpose |
 |-----|---------|-----------|---------|
+| CloudShellAccess | `cloudshell:*` | `*` | Access AWS CloudShell environment |
 | STSAccess | `sts:GetCallerIdentity` | `*` | Verify AWS credentials |
 | SecretsManagerAccess | `secretsmanager:CreateSecret`, `UpdateSecret` | `secret:/myapp/*` | Store Adobe API credentials (pdf2pdf only) |
 | BedrockDataAutomationAccess | `bedrock:CreateDataAutomationProject` | `*` | Create BDA project (pdf2html only) |
