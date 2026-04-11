@@ -6,7 +6,7 @@ Deployment policies are maintained as standalone JSON files in [`policies/`](../
 
 | File | Type | Purpose |
 |------|------|---------|
-| [`deploy-caller-policy.json`](../policies/deploy-caller-policy.json) | Identity policy | User/role running `deploy.sh` (backend + UI) |
+| [`deploy-policy.json`](../policies/deploy-policy.json) | Identity policy | User/role running `deploy.sh` (backend + UI) |
 | [`pdf2pdf-codebuild-policy.json`](../policies/pdf2pdf-codebuild-policy.json) | Identity policy | PDF-to-PDF CodeBuild deployment |
 | [`pdf2html-codebuild-policy.json`](../policies/pdf2html-codebuild-policy.json) | Identity policy | PDF-to-HTML CodeBuild deployment |
 | [`codebuild-trust-policy.json`](../policies/codebuild-trust-policy.json) | Trust policy | CodeBuild service assume-role |
@@ -24,7 +24,7 @@ aws accessanalyzer validate-policy \
 
 The user or role that runs `deploy.sh` makes AWS API calls *before* CodeBuild starts. This includes both the backend deploy script and the UI deploy script (from the [PDF_accessability_UI](https://github.com/ASUCICREPO/PDF_accessability_UI) repo).
 
-See [`policies/deploy-caller-policy.json`](../policies/deploy-caller-policy.json) for the full document.
+See [`policies/deploy-policy.json`](../policies/deploy-policy.json) for the full document.
 
 | Sid | Actions | Resources | Purpose |
 |-----|---------|-----------|---------|
