@@ -170,12 +170,12 @@ deploy_backend_solution() {
     else
         print_status "🆕 Creating new IAM role..."
 
-        # grab policy with a resolved relative path
-        TRUST_POLICY=$(cat "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/policies/codebuild-trust-policy.json")
+        # Resolve policy directory relative to this script
+        POLICY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/policies"
 
         CREATE_ROLE_OUTPUT=$(aws iam create-role \
             --role-name "$ROLE_NAME" \
-            --assume-role-policy-document "$TRUST_POLICY" \
+            --assume-role-policy-document "file://${POLICY_DIR}/codebuild-trust-policy.json" \
             --output json)
 
         if [ $? -ne 0 ]; then
@@ -192,19 +192,19 @@ deploy_backend_solution() {
             # Note: Some wildcards retained due to AWS policy size limits (6,144 chars max)
             # but resources are scoped to specific patterns
             POLICY_NAME="${PROJECT_NAME}-pdf2pdf-codebuild-policy"
-            POLICY_DOCUMENT=$(cat "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/policies/pdf2pdf-codebuild-policy.json")
+            POLICY_FILE="${POLICY_DIR}/pdf2pdf-codebuild-policy.json"
         else
             # PDF-to-HTML scoped policy for CDK deployment
             # Note: Some wildcards retained due to AWS policy size limits (6,144 chars max)
             POLICY_NAME="${PROJECT_NAME}-pdf2html-codebuild-policy"
-            POLICY_DOCUMENT=$(cat "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/policies/pdf2html-codebuild-policy.json")
+            POLICY_FILE="${POLICY_DIR}/pdf2html-codebuild-policy.json"
         fi
         
         # Create the policy
         print_status "📋 Creating IAM policy: $POLICY_NAME"
         POLICY_RESPONSE=$(aws iam create-policy \
             --policy-name "$POLICY_NAME" \
-            --policy-document "$POLICY_DOCUMENT" \
+            --policy-document "file://${POLICY_FILE}" \
             --description "Minimal IAM policy for $DEPLOYMENT_TYPE CodeBuild deployment" 2>/dev/null || \
             aws iam get-policy --policy-arn "arn:aws:iam::$ACCOUNT_ID:policy/$POLICY_NAME" 2>/dev/null)
         

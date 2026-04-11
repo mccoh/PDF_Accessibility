@@ -2,14 +2,14 @@
 
 This document outlines the IAM permissions required to deploy and operate each PDF accessibility solution.
 
-Deployment policies are maintained as standalone JSON files in [`policies/`](../policies/) and loaded by `deploy.sh` at runtime:
+Deployment policies are maintained as standalone JSON files in [`policies/`](../policies/):
 
 | File | Type | Purpose |
 |------|------|---------|
-| [`deploy-policy.json`](../policies/deploy-policy.json) | Identity policy | User/role running `deploy.sh` (backend + UI) |
-| [`pdf2pdf-codebuild-policy.json`](../policies/pdf2pdf-codebuild-policy.json) | Identity policy | PDF-to-PDF CodeBuild deployment |
-| [`pdf2html-codebuild-policy.json`](../policies/pdf2html-codebuild-policy.json) | Identity policy | PDF-to-HTML CodeBuild deployment |
-| [`codebuild-trust-policy.json`](../policies/codebuild-trust-policy.json) | Trust policy | CodeBuild service assume-role |
+| [`deploy-caller-policy.json`](../policies/deploy-caller-policy.json) | Identity policy | Must be manually attached to the IAM user/role running `deploy.sh` |
+| [`pdf2pdf-codebuild-policy.json`](../policies/pdf2pdf-codebuild-policy.json) | Identity policy | Loaded by `deploy.sh` and attached to the CodeBuild service role (pdf2pdf) |
+| [`pdf2html-codebuild-policy.json`](../policies/pdf2html-codebuild-policy.json) | Identity policy | Loaded by `deploy.sh` and attached to the CodeBuild service role (pdf2html) |
+| [`codebuild-trust-policy.json`](../policies/codebuild-trust-policy.json) | Trust policy | Loaded by `deploy.sh` when creating the CodeBuild service role |
 
 Validate any policy with:
 ```bash
